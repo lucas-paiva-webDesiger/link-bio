@@ -1,0 +1,561 @@
+/* ==========================================================================
+   ESTILO BEACONS FEMININO PREMIUM - GABI PIMENTA (@gabipimenta)
+   Otimizado para Celulares & Navegador In-App do TikTok
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* Paleta Feminina & Glamour */
+  --primary-pink: #ff3377;
+  --primary-glow: rgba(255, 51, 119, 0.4);
+  --soft-rose: #ff85a2;
+  --rose-gold: #f5b0bc;
+  --lavender: #b185db;
+  --telegram-blue: #229ed9;
+  
+  /* Fundos & Superfícies (Leve para não pesar no TikTok WebView) */
+  --bg-gradient: radial-gradient(circle at 50% 15%, #220d20 0%, #130815 60%, #0a040b 100%);
+  --card-bg: rgba(255, 255, 255, 0.06);
+  --card-border: rgba(255, 182, 193, 0.22);
+  --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  
+  /* Textos */
+  --text-main: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.8);
+  --text-muted: rgba(255, 255, 255, 0.55);
+  
+  /* Bordas */
+  --radius-pill: 9999px;
+  --radius-card: 20px;
+  --transition: all 0.25s ease;
+}
+
+/* Reset Otimizado para Mobile */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #0d050f;
+  background-image: var(--bg-gradient);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text-main);
+  touch-action: manipulation;
+  overflow-x: hidden;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 24px 16px 50px;
+}
+
+/* Efeito de Luzes Flutuantes Leves (Hardware-accelerated) */
+.ambient-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  transform: translateZ(0);
+}
+
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(50px);
+  opacity: 0.35;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.glow-1 {
+  width: 260px;
+  height: 260px;
+  background: #ff2a7a;
+  top: -40px;
+  left: 10%;
+  animation: floatOrb 12s infinite alternate ease-in-out;
+}
+
+.glow-2 {
+  width: 220px;
+  height: 220px;
+  background: #9d4edd;
+  top: 45%;
+  right: 5%;
+  animation: floatOrb 15s infinite alternate ease-in-out;
+  animation-delay: -4s;
+}
+
+@keyframes floatOrb {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(20px, 30px, 0); }
+}
+
+/* Container Principal Mobile-First */
+.bio-container {
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+}
+
+/* Botão de Compartilhar no Topo Direito */
+.share-top-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+  z-index: 10;
+}
+
+.share-top-btn:active {
+  transform: scale(0.92);
+  background: rgba(255, 77, 136, 0.3);
+}
+
+.share-top-btn svg {
+  width: 19px;
+  height: 19px;
+  fill: currentColor;
+}
+
+/* ==========================================================================
+   PERFIL DA GABI PIMENTA
+   ========================================================================== */
+
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 28px;
+  width: 100%;
+}
+
+/* Foto com Anel Gradiente Pulsante */
+.avatar-wrapper {
+  position: relative;
+  width: 124px;
+  height: 124px;
+  margin-bottom: 16px;
+  transform: translateZ(0);
+}
+
+.avatar-ring {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff2a7a, #a855f7, #ffd1dc, #ff3377);
+  background-size: 200% 200%;
+  animation: gradientRotate 5s linear infinite;
+  box-shadow: 0 0 20px rgba(255, 42, 122, 0.55);
+  z-index: 1;
+}
+
+@keyframes gradientRotate {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.avatar-img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center center;
+  border: 3.5px solid #140817;
+  z-index: 2;
+  background: #250f29;
+  display: block;
+}
+
+/* Badge de Status Online / Canal Liberado */
+.live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(34, 197, 94, 0.16);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: #4ade80;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.2);
+}
+
+.live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #22c55e;
+  box-shadow: 0 0 8px #22c55e;
+  animation: blinkDot 1.5s infinite;
+}
+
+@keyframes blinkDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+/* Nome da Modelo */
+.profile-name-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.profile-name {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  color: #ffffff;
+}
+
+/* Ícone de Verificado */
+.verified-icon {
+  width: 22px;
+  height: 22px;
+  fill: #ff3377;
+  filter: drop-shadow(0 0 5px rgba(255, 51, 119, 0.7));
+}
+
+/* O @ da Modelo */
+.profile-handle {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--soft-rose);
+  margin-top: 3px;
+  margin-bottom: 12px;
+  letter-spacing: 0.2px;
+  display: inline-block;
+  background: rgba(255, 133, 162, 0.12);
+  border: 1px solid rgba(255, 133, 162, 0.2);
+  padding: 3px 12px;
+  border-radius: var(--radius-pill);
+}
+
+/* Bio Curta */
+.profile-bio {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  max-width: 330px;
+  margin: 0 auto;
+}
+
+/* ==========================================================================
+   DESTAQUE PRINCIPAL: O BOTÃO HERO TELEGRAM (100% CONVERSÃO)
+   ========================================================================== */
+
+.links-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.link-card.featured-telegram {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 20px 18px;
+  background: linear-gradient(135deg, rgba(34, 158, 217, 0.2) 0%, rgba(255, 51, 119, 0.25) 100%),
+              rgba(255, 255, 255, 0.07);
+  border: 1.5px solid rgba(255, 105, 180, 0.5);
+  border-radius: var(--radius-card);
+  text-decoration: none;
+  color: var(--text-main);
+  box-shadow: 0 10px 30px rgba(255, 51, 119, 0.35), 0 0 20px rgba(34, 158, 217, 0.25);
+  transition: var(--transition);
+  overflow: hidden;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Efeito de Shimmer Suave */
+.link-card.featured-telegram::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.28),
+    transparent
+  );
+  transform: skewX(-22deg);
+  animation: shimmerSweep 3.2s infinite;
+}
+
+@keyframes shimmerSweep {
+  0% { left: -100%; }
+  35% { left: 200%; }
+  100% { left: 200%; }
+}
+
+.link-card.featured-telegram:hover,
+.link-card.featured-telegram:active {
+  transform: translateY(-2px) scale(1.02);
+  border-color: #ff3377;
+  box-shadow: 0 14px 38px rgba(255, 51, 119, 0.55), 0 0 26px rgba(34, 158, 217, 0.45);
+}
+
+.link-card.featured-telegram:active {
+  transform: scale(0.98);
+}
+
+.link-card.featured-telegram .link-icon-box {
+  width: 52px;
+  height: 52px;
+  border-radius: 17px;
+  background: linear-gradient(135deg, #0088cc, #ff3377);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 15px;
+  box-shadow: 0 4px 16px rgba(34, 158, 217, 0.45);
+}
+
+.link-card.featured-telegram .link-icon-box svg {
+  width: 27px;
+  height: 27px;
+  fill: currentColor;
+}
+
+.link-info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  text-align: left;
+  min-width: 0;
+}
+
+.link-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.link-subtitle {
+  font-size: 12.5px;
+  color: rgba(255, 240, 248, 0.85);
+  margin-top: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.link-arrow {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 22px;
+  font-weight: 600;
+  margin-left: 10px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.link-card.featured-telegram:hover .link-arrow {
+  transform: translateX(4px);
+  color: #fff;
+}
+
+.link-badge {
+  position: absolute;
+  top: -1px;
+  right: 18px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 4px 10px;
+  border-radius: 0 0 8px 8px;
+  background: linear-gradient(135deg, #ff2a7a, #a855f7);
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(255, 42, 122, 0.5);
+}
+
+/* ==========================================================================
+   RODAPÉ (FOOTER)
+   ========================================================================== */
+
+.bio-footer {
+  text-align: center;
+  margin-top: auto;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   MODAL DE COMPARTILHAMENTO
+   ========================================================================== */
+
+.share-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  padding: 20px;
+}
+
+.share-modal-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.share-modal {
+  width: 100%;
+  max-width: 340px;
+  background: #170a1a;
+  border: 1px solid rgba(255, 105, 180, 0.35);
+  border-radius: 22px;
+  padding: 24px 18px;
+  text-align: center;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 51, 119, 0.3);
+}
+
+.share-modal h3 {
+  font-size: 18px;
+  margin-bottom: 6px;
+  color: #fff;
+}
+
+.share-modal p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 18px;
+}
+
+.copy-input-group {
+  display: flex;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 14px;
+}
+
+.copy-input-group input {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 13px;
+  padding: 8px 10px;
+  flex: 1;
+  outline: none;
+}
+
+.copy-btn {
+  background: linear-gradient(135deg, #ff3377, #ff758c);
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 9px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.close-modal-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 6px 12px;
+}
+
+/* Toast */
+.toast-msg {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(50px);
+  background: #ff3377;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 6px 20px rgba(255, 51, 119, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.25s ease;
+  z-index: 2000;
+}
+
+.toast-msg.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* Animação Suave de Entrada */
+.fade-in {
+  animation: fadeInUp 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+.delay-1 { animation-delay: 0.08s; }
+.delay-2 { animation-delay: 0.16s; }
+.delay-3 { animation-delay: 0.24s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
