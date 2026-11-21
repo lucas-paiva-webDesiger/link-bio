@@ -28,6 +28,12 @@
   <!-- Container Principal -->
   <main class="bio-container">
 
+    <!-- Alternador de Idioma no Topo Esquerdo -->
+    <button id="lang-btn" class="lang-switcher" title="Mudar Idioma / Change Language" aria-label="Mudar Idioma">
+      <span id="lang-flag" class="lang-flag">🇧🇷</span>
+      <span id="lang-label">PT</span>
+    </button>
+
     <!-- Botão de Compartilhar no Topo Direito (Estilo Beacons) -->
     <button id="share-btn" class="share-top-btn" title="Compartilhar Perfil" aria-label="Compartilhar">
       <svg viewBox="0 0 24 24">
@@ -97,8 +103,8 @@
   <!-- Modal de Compartilhar Link (Desktop ou sem share nativo) -->
   <div id="share-modal-backdrop" class="share-modal-backdrop" aria-hidden="true">
     <div class="share-modal">
-      <h3>Compartilhar Perfil 💌</h3>
-      <p>Envie este link para quem você quiser:</p>
+      <h3 id="share-modal-title">Compartilhar Perfil 💌</h3>
+      <p id="share-modal-desc">Envie este link para quem você quiser:</p>
       <div class="copy-input-group">
         <input type="text" id="share-url-input" readonly value="">
         <button id="copy-btn" class="copy-btn">Copiar</button>
