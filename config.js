@@ -1,7 +1,7 @@
 /**
  * =========================================================================
  * ⚙️ CONFIGURAÇÃO OFICIAL - GABI PIMENTA (@gabipimenta)
- * Multi-idioma (Auto-detecção para Gringa/PT/ES) + Rastreador ViralFlow
+ * Multi-idioma (Auto-detecção para Gringa/PT/ES) + Rastreador ViralFlow + Checkout SnakePay
  * =========================================================================
  */
 
@@ -15,15 +15,25 @@ const BIO_CONFIG = {
   // 2. LINK PRINCIPAL DO TELEGRAM
   telegramUrl: "https://phantoms.group/l/371cd3a5?shk=9d33xc36",
 
-  // 3. RASTREADOR DE CLIQUES DO VIRALFLOW
-  tracking: {
-    // Insira aqui o Webhook do ViralFlow para contabilizar cada clique
-    viralFlowWebhookUrl: "", // Ex: "https://seu-endpoint.viralflow.com/webhook/click"
-    // Se o ViralFlow te der um link próprio para substituir o destino:
-    viralFlowRedirectUrl: "" // Ex: "https://track.viralflow.com/..."
+  // 3. NOVO: GRUPO DE TROCAS E AVALIAÇÃO (ZANGI E ZAP) COM CHECKOUT SNAKEPAY R$ 7,90
+  zangiZapGroup: {
+    enabled: true,
+    price: 7.90,
+    priceFormatted: "R$ 7,90",
+    description: "Grupo de trocas e avaliacao zangi e zap",
+    // ⚠️ COLOQUE AQUI O LINK DO SEU GRUPO NO WHATSAPP OU ZANGI PARA ONDE O CLIENTE VAI APÓS PAGAR:
+    groupAccessUrl: "https://chat.whatsapp.com/seu-link-aqui",
+    // Se preferir redirecionar para uma página externa de checkout em vez do modal PIX:
+    customCheckoutUrl: "" 
   },
 
-  // 4. TRADUÇÃO AUTOMÁTICA POR IDIOMA (Gringa / Brasil / Hispano)
+  // 4. RASTREADOR DE CLIQUES DO VIRALFLOW
+  tracking: {
+    viralFlowWebhookUrl: "", // Webhook do ViralFlow
+    viralFlowRedirectUrl: ""  // Link de redirecionamento do ViralFlow
+  },
+
+  // 5. TRADUÇÃO AUTOMÁTICA POR IDIOMA (Gringa / Brasil / Hispano)
   translations: {
     // 🇧🇷 Português (Brasil / Portugal)
     pt: {
@@ -32,6 +42,20 @@ const BIO_CONFIG = {
       badge: "🔥 CANAL OFICIAL VIP",
       title: "Entrar no Meu Telegram",
       subtitle: "Acesse conteúdos exclusivos, ensaios e novidades ✨",
+      // Grupo Zangi e Zap
+      groupBadge: "🔥 R$ 7,90",
+      groupTitle: "Grupo de trocas e avaliação zangi e zap",
+      groupSubtitle: "Acesso imediato • Zangi & WhatsApp",
+      // Checkout
+      checkoutModalTitle: "Acesso VIP • Zangi & Zap",
+      checkoutPriceLabel: "Valor único: R$ 7,90 via PIX",
+      checkoutCopyPix: "Copiar Código PIX",
+      checkoutPixCopied: "Código PIX Copiado! ✅",
+      checkoutWaiting: "Aguardando pagamento... ⏳",
+      checkoutSuccessTitle: "🎉 Pagamento Confirmado!",
+      checkoutSuccessDesc: "Seu acesso ao Grupo de Trocas e Avaliação foi liberado com sucesso!",
+      checkoutAccessBtn: "👉 Entrar no Grupo Agora",
+      // Compartilhar
       shareTitle: "Compartilhar Perfil 💌",
       shareDesc: "Envie este link para quem você quiser:",
       copyBtn: "Copiar",
@@ -47,6 +71,20 @@ const BIO_CONFIG = {
       badge: "🔥 OFFICIAL VIP CHANNEL",
       title: "Join My Telegram",
       subtitle: "Access exclusive content, photoshoots & updates ✨",
+      // Grupo Zangi e Zap
+      groupBadge: "🔥 R$ 7.90",
+      groupTitle: "Exchange & Review Group (Zangi & Zap)",
+      groupSubtitle: "Instant access • Zangi & WhatsApp",
+      // Checkout
+      checkoutModalTitle: "VIP Access • Zangi & WhatsApp",
+      checkoutPriceLabel: "One-time: R$ 7.90 via PIX",
+      checkoutCopyPix: "Copy PIX Code",
+      checkoutPixCopied: "PIX Code Copied! ✅",
+      checkoutWaiting: "Waiting for payment... ⏳",
+      checkoutSuccessTitle: "🎉 Payment Confirmed!",
+      checkoutSuccessDesc: "Your access to the Exchange & Review Group is now unlocked!",
+      checkoutAccessBtn: "👉 Enter Group Now",
+      // Compartilhar
       shareTitle: "Share Profile 💌",
       shareDesc: "Send this link to anyone you want:",
       copyBtn: "Copy",
@@ -62,12 +100,26 @@ const BIO_CONFIG = {
       badge: "🔥 CANAL OFICIAL VIP",
       title: "Entrar a Mi Telegram",
       subtitle: "Accede a contenido exclusivo, sesiones y novedades ✨",
+      // Grupo Zangi e Zap
+      groupBadge: "🔥 R$ 7,90",
+      groupTitle: "Grupo de intercambios y reseñas zangi y zap",
+      groupSubtitle: "Acceso inmediato • Zangi & WhatsApp",
+      // Checkout
+      checkoutModalTitle: "Acceso VIP • Zangi & WhatsApp",
+      checkoutPriceLabel: "Pago único: R$ 7,90 vía PIX",
+      checkoutCopyPix: "Copiar Código PIX",
+      checkoutPixCopied: "¡Código PIX Copiado! ✅",
+      checkoutWaiting: "Esperando pago... ⏳",
+      checkoutSuccessTitle: "🎉 ¡Pago Confirmado!",
+      checkoutSuccessDesc: "¡Tu acceso al Grupo de Intercambios ha sido desbloqueado con éxito!",
+      checkoutAccessBtn: "👉 Entrar al Grupo Ahora",
+      // Compartilhar
       shareTitle: "Compartir Perfil 💌",
       shareDesc: "Envía este enlace a quien quieras:",
       copyBtn: "Copiar",
       closeBtn: "Cerrar",
       toast: "¡Enlace copiado! 💕",
-      footer: "© 2026 Gabi Pimenta • Todos los derechos reservados 💕"
+      footer: "© 2026 Gabi Pimenta • Todos los direitos reservados 💕"
     }
   }
 };

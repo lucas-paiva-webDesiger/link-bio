@@ -1,60 +1,62 @@
 # 🌸 Link na Bio Oficial - Gabi Pimenta (@gabipimenta)
 
-Página de Link na Bio ultra-feminina estilo Beacons, com foco 100% no **Telegram VIP** e especialmente otimizada para o **navegador interno do TikTok** (sem travar, sem telas de bloqueio e com carregamento instantâneo no celular).
+Página de Link na Bio ultra-feminina estilo Beacons, com botões de alta conversão, detecção de idioma (Gringa/Brasil/Hispânico), integração com contador ViralFlow e **Checkout Automático via PIX da SnakePay (R$ 7,90)**.
 
 ---
 
-## ✨ Características Deste Perfil
+## ✨ Recursos da Página
 
-- **Modelo**: Gabi Pimenta
-- **Arroba**: `@gabipimenta`
-- **Foto Oficial**: Já incluída e enquadrada em `assets/avatar.jpg`
-- **Link de Destino**: `https://phantoms.group/l/371cd3a5?shk=9d33xc36` (Smart-link anti-bloqueio direto para o Telegram)
-- **Copy Limpa e Segura**: Sem termos restritos, garantindo conformidade com as diretrizes do TikTok
-- **Otimizado para o Navegador do TikTok**:
-  - Navegação no mesmo frame (`target="_self"`), evitando que o bloqueador de popups do TikTok impeça o clique.
-  - Usa link universal nativo (`https://t.me/gabipimenta`) que o Android e o iOS interceptam para abrir diretamente o aplicativo do Telegram.
-  - CSS acelerado por hardware para não causar lentidão no WebView do TikTok.
+1. **Botão 1 — Canal Oficial Telegram**:
+   - Link via Phantoms / Smart-Link anti-bloqueio.
+   - Otimizado para abrir diretamente no app sem travar o navegador do TikTok.
+
+2. **Botão 2 — Grupo de Trocas e Avaliação Zangi e Zap (R$ 7,90)**:
+   - **Checkout PIX Integrado com SnakePay**:
+     - Ao clicar no botão, abre um checkout rápido e moderno em modal.
+     - Gera o **QR Code dinâmico** e a chave **Pix Copia e Cola** de R$ 7,90 em 1 segundo.
+     - Botão com 1 toque para copiar o código Pix.
+     - **Verificação automática de pagamento**: A cada 3 segundos, o sistema consulta a SnakePay e, assim que o cliente paga, a tela é atualizada automaticamente com a mensagem de confirmação e o botão de acesso imediato ao grupo no WhatsApp / Zangi!
+
+3. **Multi-idioma Automático**:
+   - Detecta visitantes do Brasil (PT), da Gringa (EN) e de países hispânicos (ES).
+   - Botão no topo para alternar idioma manualmente.
+
+4. **Contador de Cliques ViralFlow**:
+   - Disparo silencioso em segundo plano (`navigator.sendBeacon`) que não atrasa o redirecionamento.
 
 ---
 
-## 📁 Estrutura da Pasta
+## ⚙️ Onde Configurar o Link do Grupo (Após Pagamento)
+
+No arquivo [`config.js`](file:///C:/Users/User/Documents/antigravity/link-bio/config.js), na seção `zangiZapGroup`, coloque o link do seu grupo no WhatsApp ou Zangi:
+
+```javascript
+zangiZapGroup: {
+  enabled: true,
+  price: 7.90,
+  priceFormatted: "R$ 7,90",
+  description: "Grupo de trocas e avaliacao zangi e zap",
+  // ⚠️ Coloque o link do seu grupo para onde o cliente vai após pagar:
+  groupAccessUrl: "https://chat.whatsapp.com/seu-grupo-aqui"
+}
+```
+
+---
+
+## 📁 Estrutura do Projeto
 
 ```
 link-bio/
+├── api/
+│   ├── create-pix.js       <-- Serverless endpoint para gerar PIX na SnakePay
+│   └── check-pix.js        <-- Serverless endpoint para consultar status do PIX
 ├── assets/
 │   ├── avatar.jpg          <-- Foto de perfil da Gabi Pimenta
-│   └── avatar_full.jpg     <-- Foto original completa de backup
-├── config.js               <-- Configurações (link do Telegram, textos, etc.)
-├── index.html              <-- Página principal
-├── style.css               <-- Visual Beacons Velvet Rose otimizado
-├── script.js               <-- Script leve sem dependências
+│   └── avatar_full.jpg     <-- Foto original de backup
+├── config.js               <-- Configurações de textos, links, SnakePay e ViralFlow
+├── index.html              <-- Página principal com os botões e modal de checkout
+├── style.css               <-- Estilos, animações, modal e design Beacons
+├── script.js               <-- Lógica do PIX, cópia, verificação em tempo real
 ├── vercel.json             <-- Configuração de deploy Vercel
 └── README.md
 ```
-
----
-
-## ⚙️ Como Alterar o Link do Telegram
-
-Se o link do seu canal for diferente de `https://t.me/gabipimenta`, basta abrir o arquivo [`config.js`](file:///C:/Users/User/Documents/antigravity/link-bio/config.js) e alterar a linha:
-
-```javascript
-url: "https://t.me/gabipimenta" // Coloque o link exato do seu canal ou grupo aqui
-```
-
----
-
-## 🚀 Como Hospedar no Vercel em 2 Minutos
-
-### Pelo Terminal (Vercel CLI):
-1. No terminal do Windows, acesse a pasta:
-   ```powershell
-   cd "C:\Users\User\Documents\antigravity\link-bio"
-   npx vercel
-   ```
-2. Pressione **Enter** nas opções para confirmar e seu link estará no ar com HTTPS gratuito (ex: `https://gabipimenta.vercel.app`).
-
-### Pelo Site da Vercel:
-1. Acesse [vercel.com](https://vercel.com) e conecte ao seu GitHub.
-2. Suba a pasta `link-bio` para um repositório e clique em **Deploy**.

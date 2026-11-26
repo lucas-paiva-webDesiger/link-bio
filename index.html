@@ -74,10 +74,12 @@
     </header>
 
     <!-- ====================================================
-         ÚNICO LINK: BOTÃO HERO TELEGRAM (100% FOCO & CONVERSÃO)
-         Otimizado para o navegador in-app do TikTok (sem target="_blank" para não travar popup)
+         LINKS DE ALTA CONVERSÃO:
+         1. Botão Hero Telegram
+         2. Botão Grupo de Trocas e Avaliação (Zangi & Zap) - SnakePay R$ 7,90
          ==================================================== -->
     <section class="links-container">
+      <!-- 1. Telegram Oficial -->
       <a id="telegram-featured-link" href="https://phantoms.group/l/371cd3a5?shk=9d33xc36" class="link-card featured-telegram fade-in delay-2">
         <span id="telegram-badge" class="link-badge">🔥 CANAL OFICIAL VIP</span>
         <div class="link-icon-box">
@@ -91,6 +93,21 @@
         </div>
         <span class="link-arrow">›</span>
       </a>
+
+      <!-- 2. Grupo de Trocas e Avaliação (Zangi & Zap) -->
+      <button id="group-featured-link" class="link-card featured-group fade-in delay-3" type="button">
+        <span id="group-badge" class="link-badge">🔥 R$ 7,90</span>
+        <div class="link-icon-box">
+          <svg viewBox="0 0 24 24">
+            <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2zm0 17.8c-1.49 0-2.95-.4-4.22-1.16l-.3-.18-3.13.82.84-3.05-.2-.31a8.03 8.03 0 01-1.23-4.21c0-4.43 3.61-8.04 8.04-8.04 2.15 0 4.17.84 5.69 2.36a7.99 7.99 0 012.35 5.68c0 4.43-3.61 8.04-8.04 8.04zm4.41-6.02c-.24-.12-1.43-.71-1.65-.79-.22-.08-.38-.12-.55.12-.16.24-.63.79-.78.95-.14.16-.29.18-.53.06-.24-.12-1.02-.38-1.95-1.21-.72-.64-1.21-1.44-1.35-1.68-.14-.24-.02-.37.1-.49.11-.11.24-.29.37-.43.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.32-.75-1.81-.2-.48-.4-.41-.55-.42-.14-.01-.3-.01-.46-.01-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2 0 1.18.86 2.32.98 2.48.12.16 1.69 2.58 4.1 3.62.57.25 1.02.4 1.37.51.58.18 1.1.16 1.52.09.46-.07 1.43-.58 1.63-1.15.2-.56.2-1.04.14-1.15-.06-.1-.21-.17-.45-.29z"/>
+          </svg>
+        </div>
+        <div class="link-info">
+          <div id="group-title" class="link-title">Grupo de trocas e avaliação zangi e zap</div>
+          <div id="group-subtitle" class="link-subtitle">Acesso imediato • Zangi & WhatsApp</div>
+        </div>
+        <span class="link-arrow">›</span>
+      </button>
     </section>
 
     <!-- Rodapé -->
@@ -110,6 +127,63 @@
         <button id="copy-btn" class="copy-btn">Copiar</button>
       </div>
       <button id="close-modal-btn" class="close-modal-btn">Fechar</button>
+    </div>
+  </div>
+
+  <!-- Modal de Checkout SnakePay (PIX R$ 7,90) -->
+  <div id="checkout-modal-backdrop" class="checkout-modal-backdrop" aria-hidden="true">
+    <div class="checkout-modal">
+      <button id="checkout-close-btn" class="checkout-close-btn" aria-label="Fechar">&times;</button>
+      
+      <!-- Cabeçalho do Checkout -->
+      <div class="checkout-header">
+        <h3 id="checkout-title">Acesso VIP • Zangi & Zap</h3>
+        <div id="checkout-price" class="checkout-price-tag">⚡ Total: R$ 7,90 via PIX</div>
+      </div>
+
+      <!-- Estado 1: Carregando -->
+      <div id="checkout-loading-view" class="checkout-loading">
+        <div class="checkout-spinner"></div>
+        <p class="checkout-loading-text">Gerando QR Code PIX seguro...</p>
+      </div>
+
+      <!-- Estado 2: PIX Gerado -->
+      <div id="checkout-pix-view" style="display: none;">
+        <div class="checkout-status-badge">
+          <span class="status-dot-pulse"></span>
+          <span id="checkout-status-text">Aguardando pagamento... ⏳</span>
+        </div>
+
+        <div class="checkout-qr-box">
+          <img id="checkout-qr-img" class="checkout-qr-img" src="" alt="QR Code PIX">
+        </div>
+
+        <div class="checkout-copy-section">
+          <button id="checkout-copy-btn" class="checkout-copy-btn" type="button">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+              <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+            </svg>
+            <span id="checkout-copy-label">Copiar Código PIX</span>
+          </button>
+          
+          <input type="text" id="checkout-pix-code" class="checkout-code-preview" readonly value="">
+        </div>
+
+        <p class="checkout-instructions">
+          Copie o código acima e pague no aplicativo do seu banco na opção <strong>Pix Copia e Cola</strong>. O acesso é liberado automaticamente na hora!
+        </p>
+      </div>
+
+      <!-- Estado 3: Pagamento Aprovado / Sucesso -->
+      <div id="checkout-success-view" class="checkout-success-view" style="display: none;">
+        <div class="checkout-success-icon">✓</div>
+        <h3 id="checkout-success-title">🎉 Pagamento Confirmado!</h3>
+        <p id="checkout-success-desc">Seu acesso ao Grupo de Trocas e Avaliação foi liberado com sucesso!</p>
+        <a id="checkout-access-link" href="#" target="_blank" rel="noopener noreferrer" class="checkout-access-btn">
+          <span id="checkout-access-label">👉 Entrar no Grupo Agora</span>
+        </a>
+      </div>
+
     </div>
   </div>
 

@@ -1,11 +1,13 @@
 /**
  * =========================================================================
  * JAVASCRIPT - GABI PIMENTA (@gabipimenta)
- * Multi-idioma Automático (Gringa / Brasil / Hispano) + Contador ViralFlow
+ * Multi-idioma Automático + Contador ViralFlow + Checkout SnakePay (PIX R$ 7,90)
  * =========================================================================
  */
 
 let currentLanguage = "pt";
+let pixPollingInterval = null;
+let currentTransactionId = null;
 
 document.addEventListener("DOMContentLoaded", () => {
   const cfg = typeof BIO_CONFIG !== "undefined" ? BIO_CONFIG : {};
@@ -16,7 +18,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // 2. Configura cliques e rastreador ViralFlow
   setupTelegramClick(cfg);
 
-  // 3. Configura compartilhamento
+  // 3. Configura o botão e checkout SnakePay (Zangi & Zap R$ 7,90)
+  setupSnakePayCheckout(cfg);
+
+  // 4. Configura compartilhamento
   setupShare();
 });
 
@@ -33,13 +38,11 @@ const LANG_META = {
  * Detecta o idioma do visitante automaticamente
  */
 function detectLanguage() {
-  // 1. Verifica se o usuário já escolheu manualmente antes
   const saved = localStorage.getItem("gabi_bio_lang");
   if (saved && (saved === "pt" || saved === "en" || saved === "es")) {
     return saved;
   }
 
-  // 2. Detecta idioma do navegador do celular / TikTok
   const navLang = (navigator.languages && navigator.languages[0]) || navigator.language || navigator.userLanguage || "en";
   const lower = navLang.toLowerCase();
 
@@ -49,7 +52,6 @@ function detectLanguage() {
     return "es";
   }
 
-  // Qualquer outro idioma (EUA, Europa, Ásia, etc.) = Gringa (Inglês)
   return "en";
 }
 
@@ -60,11 +62,9 @@ function initLanguage(cfg) {
   currentLanguage = detectLanguage();
   applyLanguage(currentLanguage, cfg);
 
-  // Alternador manual ao clicar no botão
   const langBtn = document.getElementById("lang-btn");
   if (langBtn) {
     langBtn.addEventListener("click", () => {
-      // Ciclo: PT -> EN -> ES -> PT
       if (currentLanguage === "pt") currentLanguage = "en";
       else if (currentLanguage === "en") currentLanguage = "es";
       else currentLanguage = "pt";
@@ -81,7 +81,6 @@ function initLanguage(cfg) {
 function applyLanguage(lang, cfg) {
   const t = (cfg.translations && cfg.translations[lang]) || (cfg.translations && cfg.translations.en) || {};
 
-  // Atualiza metadados e botão de idioma
   document.documentElement.lang = lang === "pt" ? "pt-BR" : (lang === "es" ? "es" : "en");
   const meta = LANG_META[lang] || LANG_META.en;
   
@@ -90,12 +89,10 @@ function applyLanguage(lang, cfg) {
   if (flagEl) flagEl.textContent = meta.flag;
   if (labelEl) labelEl.textContent = meta.label;
 
-  // Título da Aba
   if (cfg.name) {
     document.title = lang === "en" ? `${cfg.name} | Official Channel` : `${cfg.name} | Canal Oficial`;
   }
 
-  // Avatar e Nome
   const avatarEl = document.getElementById("avatar-img");
   if (avatarEl && cfg.avatar) {
     avatarEl.src = cfg.avatar;
@@ -108,13 +105,14 @@ function applyLanguage(lang, cfg) {
   const handleEl = document.getElementById("profile-handle");
   if (handleEl && cfg.handle) handleEl.textContent = cfg.handle;
 
-  // Textos Traduzidos
+  // Bio e Status
   const bioEl = document.getElementById("profile-bio");
   if (bioEl && t.bio) bioEl.textContent = t.bio;
 
   const liveTextEl = document.getElementById("live-text");
   if (liveTextEl && t.status) liveTextEl.textContent = t.status;
 
+  // Botão 1: Telegram
   const tgBadge = document.getElementById("telegram-badge");
   if (tgBadge && t.badge) tgBadge.textContent = t.badge;
 
@@ -124,10 +122,43 @@ function applyLanguage(lang, cfg) {
   const tgSubtitle = document.getElementById("telegram-subtitle");
   if (tgSubtitle && t.subtitle) tgSubtitle.textContent = t.subtitle;
 
+  // Botão 2: Grupo Zangi e Zap
+  const groupBadge = document.getElementById("group-badge");
+  if (groupBadge && t.groupBadge) groupBadge.textContent = t.groupBadge;
+
+  const groupTitle = document.getElementById("group-title");
+  if (groupTitle && t.groupTitle) groupTitle.textContent = t.groupTitle;
+
+  const groupSubtitle = document.getElementById("group-subtitle");
+  if (groupSubtitle && t.groupSubtitle) groupSubtitle.textContent = t.groupSubtitle;
+
+  // Modal Checkout Textos
+  const checkoutTitle = document.getElementById("checkout-title");
+  if (checkoutTitle && t.checkoutModalTitle) checkoutTitle.textContent = t.checkoutModalTitle;
+
+  const checkoutPrice = document.getElementById("checkout-price");
+  if (checkoutPrice && t.checkoutPriceLabel) checkoutPrice.textContent = t.checkoutPriceLabel;
+
+  const checkoutCopyLabel = document.getElementById("checkout-copy-label");
+  if (checkoutCopyLabel && t.checkoutCopyPix) checkoutCopyLabel.textContent = t.checkoutCopyPix;
+
+  const checkoutStatusText = document.getElementById("checkout-status-text");
+  if (checkoutStatusText && t.checkoutWaiting) checkoutStatusText.textContent = t.checkoutWaiting;
+
+  const checkoutSuccessTitle = document.getElementById("checkout-success-title");
+  if (checkoutSuccessTitle && t.checkoutSuccessTitle) checkoutSuccessTitle.textContent = t.checkoutSuccessTitle;
+
+  const checkoutSuccessDesc = document.getElementById("checkout-success-desc");
+  if (checkoutSuccessDesc && t.checkoutSuccessDesc) checkoutSuccessDesc.textContent = t.checkoutSuccessDesc;
+
+  const checkoutAccessLabel = document.getElementById("checkout-access-label");
+  if (checkoutAccessLabel && t.checkoutAccessBtn) checkoutAccessLabel.textContent = t.checkoutAccessBtn;
+
+  // Rodapé
   const footerEl = document.getElementById("bio-footer-text");
   if (footerEl && t.footer) footerEl.textContent = t.footer;
 
-  // Modal de Compartilhar
+  // Modal Compartilhar
   const shareTitleEl = document.getElementById("share-modal-title");
   if (shareTitleEl && t.shareTitle) shareTitleEl.textContent = t.shareTitle;
 
@@ -148,7 +179,6 @@ function setupTelegramClick(cfg) {
   const tgBtn = document.getElementById("telegram-featured-link");
   if (!tgBtn) return;
 
-  // URL final de destino (seja o link do ViralFlow ou o Phantoms)
   const targetUrl = (cfg.tracking && cfg.tracking.viralFlowRedirectUrl) || 
                     cfg.telegramUrl || 
                     "https://phantoms.group/l/371cd3a5?shk=9d33xc36";
@@ -156,24 +186,231 @@ function setupTelegramClick(cfg) {
   tgBtn.setAttribute("href", targetUrl);
 
   tgBtn.addEventListener("click", function(e) {
-    // 1. RASTREADOR / CONTADOR DE CLIQUES (VIRALFLOW)
-    trackViralFlowClick(cfg);
-
-    // 2. Navegação suave no mesmo frame para não quebrar no navegador do TikTok
+    trackViralFlowClick(cfg, "telegram");
     window.location.href = targetUrl;
   });
 }
 
 /**
- * Envia o evento de clique para o ViralFlow em segundo plano (sem travar o redirecionamento)
+ * =========================================================================
+ * CHECKOUT SNAKEPAY - GRUPO ZANGI & ZAP (R$ 7,90 VIA PIX)
+ * =========================================================================
  */
-function trackViralFlowClick(cfg) {
+function setupSnakePayCheckout(cfg) {
+  const groupBtn = document.getElementById("group-featured-link");
+  const modalBackdrop = document.getElementById("checkout-modal-backdrop");
+  const closeBtn = document.getElementById("checkout-close-btn");
+  const copyPixBtn = document.getElementById("checkout-copy-btn");
+  const pixCodeInput = document.getElementById("checkout-pix-code");
+  const copyLabel = document.getElementById("checkout-copy-label");
+
+  const loadingView = document.getElementById("checkout-loading-view");
+  const pixView = document.getElementById("checkout-pix-view");
+  const successView = document.getElementById("checkout-success-view");
+  const qrImg = document.getElementById("checkout-qr-img");
+  const accessLink = document.getElementById("checkout-access-link");
+
+  if (!groupBtn || !modalBackdrop) return;
+
+  // Clique no botão Grupo Zangi & Zap
+  groupBtn.addEventListener("click", () => {
+    trackViralFlowClick(cfg, "group_zangi_zap");
+
+    // Se houver um checkout externo configurado, redireciona
+    if (cfg.zangiZapGroup && cfg.zangiZapGroup.customCheckoutUrl) {
+      window.location.href = cfg.zangiZapGroup.customCheckoutUrl;
+      return;
+    }
+
+    // Abre o Modal de Checkout PIX
+    modalBackdrop.classList.add("active");
+    loadingView.style.display = "flex";
+    pixView.style.display = "none";
+    successView.style.display = "none";
+
+    // Gera a cobrança PIX via SnakePay
+    gerarPixSnakePay();
+  });
+
+  // Fechar Modal
+  if (closeBtn) {
+    closeBtn.addEventListener("click", fecharModalCheckout);
+  }
+
+  modalBackdrop.addEventListener("click", (e) => {
+    if (e.target === modalBackdrop) {
+      fecharModalCheckout();
+    }
+  });
+
+  function fecharModalCheckout() {
+    modalBackdrop.classList.remove("active");
+    if (pixPollingInterval) {
+      clearInterval(pixPollingInterval);
+      pixPollingInterval = null;
+    }
+  }
+
+  // Copiar Código PIX
+  if (copyPixBtn && pixCodeInput) {
+    copyPixBtn.addEventListener("click", () => {
+      const code = pixCodeInput.value;
+      if (!code) return;
+
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(code).then(() => onPixCopied()).catch(() => fallbackCopy(code));
+      } else {
+        fallbackCopy(code);
+      }
+    });
+  }
+
+  function fallbackCopy(code) {
+    pixCodeInput.select();
+    document.execCommand("copy");
+    onPixCopied();
+  }
+
+  function onPixCopied() {
+    if (copyLabel) {
+      const orig = copyLabel.textContent;
+      copyLabel.textContent = "Código PIX Copiado! ✅";
+      setTimeout(() => { copyLabel.textContent = orig; }, 2500);
+    }
+    showToastMsg("Código PIX copiado! Cole no seu banco 💕");
+  }
+
+  /**
+   * Comunicação com SnakePay para Gerar o PIX
+   */
+  async function gerarPixSnakePay() {
+    try {
+      let data = null;
+
+      // 1. Tenta rota serverless da Vercel (/api/create-pix)
+      try {
+        const res = await fetch("/api/create-pix", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" }
+        });
+        if (res.ok) {
+          data = await res.json();
+        }
+      } catch (e) {}
+
+      // 2. Se falhar ou estiver rodando localmente sem serverless, chama direto a SnakePay
+      if (!data || !data.success) {
+        const apiKey = (cfg.zangiZapGroup && cfg.zangiZapGroup.apiKey) || atob("c2tfbGl2ZV9hNjkyY2M4NjdlZWE0ZjY2ODJhNmM3MTExNDA0ODFmNTVkNTViMDU1");
+        const resDirect = await fetch("https://snakepay.com.br/api/pix/create", {
+          method: "POST",
+          headers: {
+            "x-api-key": apiKey,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            amount: 7.90,
+            description: "Grupo de trocas e avaliacao zangi e zap",
+            external_id: "order-" + Date.now() + "-" + Math.random().toString(36).substring(2, 7)
+          })
+        });
+        data = await resDirect.json();
+      }
+
+      if (data && data.success && data.transaction) {
+        exibirPixGerado(data.transaction);
+      } else {
+        throw new Error(data?.error || "Erro ao gerar PIX");
+      }
+    } catch (err) {
+      loadingView.style.display = "none";
+      alert("Não foi possível gerar o PIX no momento. Por favor, tente novamente em instantes.");
+      fecharModalCheckout();
+    }
+  }
+
+  /**
+   * Exibe o QR Code e o Copia e Cola
+   */
+  function exibirPixGerado(tx) {
+    currentTransactionId = tx.id;
+    loadingView.style.display = "none";
+    pixView.style.display = "block";
+
+    // QR Code
+    if (qrImg && tx.qr_code_base64) {
+      qrImg.src = tx.qr_code_base64;
+    }
+
+    // Código Copia e Cola
+    if (pixCodeInput && tx.pix_copia_cola) {
+      pixCodeInput.value = tx.pix_copia_cola;
+    }
+
+    // Inicia verificação periódica de pagamento a cada 3.5 segundos
+    iniciarVerificacaoPagamento(tx.id);
+  }
+
+  /**
+   * Consulta o status do PIX periodicamente até aprovar
+   */
+  function iniciarVerificacaoPagamento(txId) {
+    if (pixPollingInterval) clearInterval(pixPollingInterval);
+
+    pixPollingInterval = setInterval(async () => {
+      try {
+        let statusData = null;
+
+        // Tenta rota serverless
+        try {
+          const res = await fetch(`/api/check-pix?id=${encodeURIComponent(txId)}`);
+          if (res.ok) statusData = await res.json();
+        } catch (e) {}
+
+        // Fallback direto na API SnakePay
+        if (!statusData || !statusData.status) {
+          const apiKey = (cfg.zangiZapGroup && cfg.zangiZapGroup.apiKey) || atob("c2tfbGl2ZV9hNjkyY2M4NjdlZWE0ZjY2ODJhNmM3MTExNDA0ODFmNTVkNTViMDU1");
+          const resDirect = await fetch(`https://snakepay.com.br/api/pix/${encodeURIComponent(txId)}`, {
+            method: "GET",
+            headers: { "x-api-key": apiKey }
+          });
+          if (resDirect.ok) statusData = await resDirect.json();
+        }
+
+        // Se o pagamento foi aprovado!
+        if (statusData && statusData.status === "paid") {
+          clearInterval(pixPollingInterval);
+          pixPollingInterval = null;
+          exibirSucessoPagamento();
+        }
+      } catch (err) {}
+    }, 3500);
+  }
+
+  /**
+   * Tela de Sucesso / Liberação de Acesso
+   */
+  function exibirSucessoPagamento() {
+    pixView.style.display = "none";
+    successView.style.display = "flex";
+
+    const targetGroupUrl = (cfg.zangiZapGroup && cfg.zangiZapGroup.groupAccessUrl) || "https://chat.whatsapp.com/";
+    if (accessLink) {
+      accessLink.href = targetGroupUrl;
+    }
+
+    showToastMsg("🎉 Pagamento de R$ 7,90 Aprovado!");
+  }
+}
+
+/**
+ * Envia o evento de clique para o ViralFlow em segundo plano
+ */
+function trackViralFlowClick(cfg, targetName = "telegram") {
   const webhookUrl = cfg.tracking && cfg.tracking.viralFlowWebhookUrl;
   
-  // Dados detalhados do clique para o ViralFlow
   const clickData = {
     event: "link_click",
-    target: "telegram",
+    target: targetName,
     model: cfg.name || "Gabi Pimenta",
     handle: cfg.handle || "@gabipimenta",
     language: currentLanguage,
@@ -183,7 +420,6 @@ function trackViralFlowClick(cfg) {
   };
 
   if (webhookUrl) {
-    // navigator.sendBeacon garante o envio mesmo enquanto o navegador sai da página
     if (navigator.sendBeacon) {
       const blob = new Blob([JSON.stringify(clickData)], { type: "application/json" });
       navigator.sendBeacon(webhookUrl, blob);
@@ -198,7 +434,6 @@ function trackViralFlowClick(cfg) {
     }
   }
 
-  // Registra no contador local para consulta rápida
   try {
     const count = parseInt(localStorage.getItem("total_clicks") || "0", 10) + 1;
     localStorage.setItem("total_clicks", count.toString());
@@ -214,7 +449,6 @@ function setupShare() {
   const closeModalBtn = document.getElementById("close-modal-btn");
   const copyBtn = document.getElementById("copy-btn");
   const shareInput = document.getElementById("share-url-input");
-  const toast = document.getElementById("toast-msg");
 
   const currentUrl = window.location.href;
   if (shareInput) shareInput.value = currentUrl;
@@ -250,7 +484,7 @@ function setupShare() {
       const successMsg = (BIO_CONFIG.translations && BIO_CONFIG.translations[currentLanguage] && BIO_CONFIG.translations[currentLanguage].toast) || "Link copiado! 💕";
       if (navigator.clipboard) {
         navigator.clipboard.writeText(shareInput.value).then(() => {
-          showToast(successMsg);
+          showToastMsg(successMsg);
           if (modalBackdrop) modalBackdrop.classList.remove("active");
         }).catch(() => fallbackCopy(successMsg));
       } else {
@@ -262,16 +496,17 @@ function setupShare() {
   function fallbackCopy(msg) {
     shareInput.select();
     document.execCommand("copy");
-    showToast(msg);
+    showToastMsg(msg);
     if (modalBackdrop) modalBackdrop.classList.remove("active");
   }
+}
 
-  function showToast(msg) {
-    if (!toast) return;
-    toast.textContent = msg;
-    toast.classList.add("show");
-    setTimeout(() => {
-      toast.classList.remove("show");
-    }, 2500);
-  }
+function showToastMsg(msg) {
+  const toast = document.getElementById("toast-msg");
+  if (!toast) return;
+  toast.textContent = msg;
+  toast.classList.add("show");
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2500);
 }
