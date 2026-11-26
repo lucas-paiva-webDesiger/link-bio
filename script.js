@@ -136,6 +136,45 @@ function applyLanguage(lang, cfg) {
   const checkoutTitle = document.getElementById("checkout-title");
   if (checkoutTitle && t.checkoutModalTitle) checkoutTitle.textContent = t.checkoutModalTitle;
 
+  // Prova Social / Teasers (+18)
+  const previewBadge = document.getElementById("preview-badge");
+  if (previewBadge && t.previewBadge) previewBadge.textContent = t.previewBadge;
+
+  const previewTitle = document.getElementById("preview-title");
+  if (previewTitle && t.previewTitle) previewTitle.textContent = t.previewTitle;
+
+  const previewMembersText = document.getElementById("preview-members-text");
+  if (previewMembersText && t.previewMembers) previewMembersText.textContent = t.previewMembers;
+
+  const teaser1Tag = document.getElementById("teaser1-tag");
+  if (teaser1Tag && t.teaser1Tag) teaser1Tag.textContent = t.teaser1Tag;
+
+  const teaser2Tag = document.getElementById("teaser2-tag");
+  if (teaser2Tag && t.teaser2Tag) teaser2Tag.textContent = t.teaser2Tag;
+
+  const teaser3Tag = document.getElementById("teaser3-tag");
+  if (teaser3Tag && t.teaser3Tag) teaser3Tag.textContent = t.teaser3Tag;
+
+  const benefit1 = document.getElementById("benefit-1");
+  if (benefit1 && t.benefit1) benefit1.innerHTML = t.benefit1;
+
+  const benefit2 = document.getElementById("benefit-2");
+  if (benefit2 && t.benefit2) benefit2.innerHTML = t.benefit2;
+
+  const benefit3 = document.getElementById("benefit-3");
+  if (benefit3 && t.benefit3) benefit3.innerHTML = t.benefit3;
+
+  const benefit4 = document.getElementById("benefit-4");
+  if (benefit4 && t.benefit4) benefit4.innerHTML = t.benefit4;
+
+  const previewPriceTag = document.getElementById("preview-price-tag");
+  if (previewPriceTag && t.previewPriceTag) {
+    previewPriceTag.innerHTML = `${t.previewPriceTag} <span class="preview-price-old">R$ 29,90</span>`;
+  }
+
+  const previewCtaBtn = document.getElementById("preview-cta-btn");
+  if (previewCtaBtn && t.previewBtnCta) previewCtaBtn.textContent = t.previewBtnCta;
+
   const checkoutPrice = document.getElementById("checkout-price");
   if (checkoutPrice && t.checkoutPriceLabel) checkoutPrice.textContent = t.checkoutPriceLabel;
 
@@ -204,6 +243,8 @@ function setupSnakePayCheckout(cfg) {
   const pixCodeInput = document.getElementById("checkout-pix-code");
   const copyLabel = document.getElementById("checkout-copy-label");
 
+  const previewView = document.getElementById("checkout-preview-view");
+  const previewCtaBtn = document.getElementById("preview-cta-btn");
   const loadingView = document.getElementById("checkout-loading-view");
   const pixView = document.getElementById("checkout-pix-view");
   const successView = document.getElementById("checkout-success-view");
@@ -212,25 +253,30 @@ function setupSnakePayCheckout(cfg) {
 
   if (!groupBtn || !modalBackdrop) return;
 
-  // Clique no botão Grupo Zangi & Zap
+  // Clique no botão Grupo Zangi & Zap -> Exibe primeiro o Teaser / Prova!
   groupBtn.addEventListener("click", () => {
     trackViralFlowClick(cfg, "group_zangi_zap");
 
-    // Se houver um checkout externo configurado, redireciona
     if (cfg.zangiZapGroup && cfg.zangiZapGroup.customCheckoutUrl) {
       window.location.href = cfg.zangiZapGroup.customCheckoutUrl;
       return;
     }
 
-    // Abre o Modal de Checkout PIX
     modalBackdrop.classList.add("active");
-    loadingView.style.display = "flex";
+    if (previewView) previewView.style.display = "flex";
+    loadingView.style.display = "none";
     pixView.style.display = "none";
     successView.style.display = "none";
-
-    // Gera a cobrança PIX via SnakePay
-    gerarPixSnakePay();
   });
+
+  // Clique no botão "LIBERAR MEU ACESSO AGORA • R$ 7,90" -> Gera o PIX
+  if (previewCtaBtn) {
+    previewCtaBtn.addEventListener("click", () => {
+      if (previewView) previewView.style.display = "none";
+      loadingView.style.display = "flex";
+      gerarPixSnakePay();
+    });
+  }
 
   // Fechar Modal
   if (closeBtn) {

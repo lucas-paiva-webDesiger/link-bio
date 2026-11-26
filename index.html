@@ -130,25 +130,89 @@
     </div>
   </div>
 
-  <!-- Modal de Checkout SnakePay (PIX R$ 7,90) -->
+  <!-- Modal de Checkout SnakePay com Prova Social + PIX R$ 7,90 -->
   <div id="checkout-modal-backdrop" class="checkout-modal-backdrop" aria-hidden="true">
     <div class="checkout-modal">
       <button id="checkout-close-btn" class="checkout-close-btn" aria-label="Fechar">&times;</button>
       
-      <!-- Cabeçalho do Checkout -->
-      <div class="checkout-header">
-        <h3 id="checkout-title">Acesso VIP • Zangi & Zap</h3>
-        <div id="checkout-price" class="checkout-price-tag">⚡ Total: R$ 7,90 via PIX</div>
+      <!-- ESTADO 0: PROVA SOCIAL & O QUE TEM DENTRO (TEASER VIEW) -->
+      <div id="checkout-preview-view" class="checkout-preview-view">
+        <div class="preview-badge-row">
+          <span id="preview-badge" class="preview-badge">🔞 GRUPO EXCLUSIVO +18</span>
+        </div>
+
+        <h3 id="preview-title" class="preview-title">Grupo de Trocas & Avaliação (Zangi & Zap)</h3>
+
+        <div id="preview-members" class="preview-members-badge">
+          <span class="live-dot"></span>
+          <span id="preview-members-text">🟢 1.480 membros ativos trocando agora</span>
+        </div>
+
+        <!-- Grade com 3 Teasers Borrados de Prova Real -->
+        <div class="teaser-grid">
+          <div class="teaser-card">
+            <img src="assets/teaser_1.jpg" alt="Teaser 1" class="teaser-thumb">
+            <div class="teaser-overlay">
+              <span class="teaser-lock-icon">🔒</span>
+              <span id="teaser1-tag" class="teaser-tag">🔒 VÍDEO COMPLETO</span>
+            </div>
+          </div>
+          <div class="teaser-card">
+            <img src="assets/teaser_2.jpg" alt="Teaser 2" class="teaser-thumb">
+            <div class="teaser-overlay">
+              <span class="teaser-lock-icon">🔞</span>
+              <span id="teaser2-tag" class="teaser-tag">🔞 ENSAIO +18</span>
+            </div>
+          </div>
+          <div class="teaser-card">
+            <img src="assets/teaser_3.jpg" alt="Teaser 3" class="teaser-thumb">
+            <div class="teaser-overlay">
+              <span class="teaser-lock-icon">💬</span>
+              <span id="teaser3-tag" class="teaser-tag">💬 CHAT & TROCAS</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- O que tem lá dentro (Benefícios Reais) -->
+        <div class="benefits-card">
+          <div class="benefit-item">
+            <span id="benefit-1">🔥 <strong>Trocas diárias ilimitadas</strong> de fotos e vídeos entre os membros</span>
+          </div>
+          <div class="benefit-item">
+            <span id="benefit-2">😈 <strong>Avaliação de fotos real</strong> no privado do Zangi e WhatsApp</span>
+          </div>
+          <div class="benefit-item">
+            <span id="benefit-3">🔒 <strong>100% anônimo e discreto</strong> (seu número e identidade protegidos)</span>
+          </div>
+          <div class="benefit-item">
+            <span id="benefit-4">⚡ <strong>Acesso vitalício imediato</strong> por apenas <strong>R$ 7,90</strong> (sem mensalidade)</span>
+          </div>
+        </div>
+
+        <!-- Preço e Botão de Ação -->
+        <div class="preview-price-box">
+          <span id="preview-price-tag">De <span class="preview-price-old">R$ 29,90</span> por apenas</span>
+          <span class="preview-price-highlight">R$ 7,90 (Único)</span>
+        </div>
+
+        <button id="preview-cta-btn" class="preview-cta-btn" type="button">
+          👉 LIBERAR MEU ACESSO AGORA • R$ 7,90
+        </button>
       </div>
 
-      <!-- Estado 1: Carregando -->
-      <div id="checkout-loading-view" class="checkout-loading">
+      <!-- ESTADO 1: CARREGANDO PIX -->
+      <div id="checkout-loading-view" class="checkout-loading" style="display: none;">
         <div class="checkout-spinner"></div>
         <p class="checkout-loading-text">Gerando QR Code PIX seguro...</p>
       </div>
 
-      <!-- Estado 2: PIX Gerado -->
+      <!-- ESTADO 2: PIX GERADO -->
       <div id="checkout-pix-view" style="display: none;">
+        <div class="checkout-header">
+          <h3 id="checkout-title">Acesso VIP • Zangi & Zap</h3>
+          <div id="checkout-price" class="checkout-price-tag">⚡ Total: R$ 7,90 via PIX</div>
+        </div>
+
         <div class="checkout-status-badge">
           <span class="status-dot-pulse"></span>
           <span id="checkout-status-text">Aguardando pagamento... ⏳</span>
@@ -174,7 +238,7 @@
         </p>
       </div>
 
-      <!-- Estado 3: Pagamento Aprovado / Sucesso -->
+      <!-- ESTADO 3: PAGAMENTO APROVADO -->
       <div id="checkout-success-view" class="checkout-success-view" style="display: none;">
         <div class="checkout-success-icon">✓</div>
         <h3 id="checkout-success-title">🎉 Pagamento Confirmado!</h3>
